@@ -15,6 +15,12 @@ class MainActivity : AppCompatActivity() {
         val bRojo: Button = findViewById(R.id.botonRojo)
         val bVerde: Button = findViewById(R.id.botonVerde)
         val textRonda: TextView = findViewById(R.id.textViewRonda)
+        val arrayBotones = hashMapOf<Int, Button>()
+        arrayBotones[0] = bRojo
+        arrayBotones[1] = bVerde
+        arrayBotones[2] = bAmarillo
+        arrayBotones[3] = bAzul
+
     }
     fun mostrarRonda() {}
     fun ejecutarSecuencia() {}
