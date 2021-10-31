@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SimonGame</string>
+    <string name="boton_start">EMPEZAR</string>
+    <string name="boton_amarillo">Amarillo</string>
+    <string name="boton_rojo">Rojo</string>
+    <string name="boton_verde">Verde</string>
+    <string name="boton_azul">Azul</string>
+    <string name="texto_ronda">Ronda</string>
+    <string name="imagen_Fondo"></string>
+    <string name="numero_Ronda"></string>
 </resources>
