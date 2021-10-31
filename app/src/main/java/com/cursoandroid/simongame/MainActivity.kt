@@ -1,5 +1,6 @@
 package com.cursoandroid.simongame
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -38,9 +39,8 @@ class MainActivity : AppCompatActivity() {
             Log.d("estado", "Jugador ha empezado a jugar")
 
             //Al clickar botón empezar mediante forEach de mi HMap activo botones
-            arrayBotones.forEach { (t, u) -> u.visibility = View.VISIBLE }
-            botonEmpezar.visibility = View.INVISIBLE
-            mostrarRonda()
+           verBotones(arrayBotones)
+            mostrarRonda(arrayBotones)
         }
         bAmarillo.setOnClickListener {
             Log.d("amarillo", "Jugador pulsa botón amarillo")
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun mostrarRonda() {
+    fun mostrarRonda(hashMap: HashMap<Int, Button>) {
         val toast = Toast.makeText(applicationContext, "Mostrando ronda", Toast.LENGTH_SHORT).show()
         Log.d("ronda", "Mostrando ronda")
         val ronda: TextView = findViewById(R.id.textViewRonda)
@@ -66,30 +66,23 @@ class MainActivity : AppCompatActivity() {
         // Uso launch para crear una tarea de corrutina que identifico con job
         val job = GlobalScope.launch(Dispatchers.Main) {
             // la función estará dentro de la corrutina
-            ejecutarSecuencia(contadorRonda)
+            ejecutarSecuencia(contadorRonda, hashMap)
         }
     }
 
-    suspend fun ejecutarSecuencia(ronda: Int): ArrayList<Int> {
+    @SuppressLint("CutPasteId")
+    suspend fun ejecutarSecuencia(ronda: Int, hashMap: HashMap<Int, Button>): ArrayList<Int> {
         var toast =
             Toast.makeText(applicationContext, "Mostrando secuencia", Toast.LENGTH_SHORT).show()
         var secuendiaGuardada = arrayListOf<Int>()
         var secuencia = contadorRonda
         var random = (0..3).random()
         Log.d("secuencia", "Ejecutando secuencia")
-        findViewById<Button>(R.id.botonRojo).isEnabled = false
-        findViewById<Button>(R.id.botonAmarillo).isEnabled = false
-        findViewById<Button>(R.id.botonVerde).isEnabled = false
-        findViewById<Button>(R.id.botonAzul).isEnabled = false
-        val arrayBotones = hashMapOf<Int, Button>()
-        arrayBotones[0] = findViewById(R.id.botonRojo)
-        arrayBotones[1] = findViewById(R.id.botonVerde)
-        arrayBotones[2] = findViewById(R.id.botonAmarillo)
-        arrayBotones[3] = findViewById(R.id.botonAzul)
+        desactivarBotones(hashMap)
         // todo -> Crear un array en función de la ronda
 
         while (secuencia > 0) {
-            var boton = arrayBotones[random]
+            var boton = hashMap[random]
             delay(500L)
             boton?.setBackgroundResource(
                 when (random) {
@@ -120,19 +113,29 @@ class MainActivity : AppCompatActivity() {
             secuencia--
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            comprobarSecuencia(secuendiaGuardada)
+            comprobarSecuencia(secuendiaGuardada,hashMap)
         }
         return secuendiaGuardada
     }
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun comprobarSecuencia(arraySecuencia: ArrayList<Int>) {
-        var secuenciaJugador = ArrayList<Int>()
-        val arrayBotones = hashMapOf<Int, Button>()
-        arrayBotones[0] = findViewById(R.id.botonRojo)
-        arrayBotones[1] = findViewById(R.id.botonVerde)
-        arrayBotones[2] = findViewById(R.id.botonAmarillo)
-        arrayBotones[3] = findViewById(R.id.botonAzul)
-        arrayBotones.forEach { (t, u) -> u.isEnabled = true }
-    }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun comprobarSecuencia(arraySecuencia: ArrayList<Int>, hashMap: HashMap<Int, Button>) {
+        var secuenciaJugador = ArrayList<Int>()
+        activarBotones(hashMap)
+
+    }
+    // Metodoos para tratar los botones (Reutilizar código y limpieza)
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun activarBotones(hashMap: HashMap<Int, Button>) {
+        hashMap.forEach { (t, u) -> u.isEnabled = true}
+    }
+    fun desactivarBotones(hashMap: HashMap<Int, Button>){
+        hashMap.forEach { (t, u) -> u.isEnabled = false}
+    }
+    fun verBotones(hashMap: HashMap<Int, Button>){
+        hashMap.forEach { (t, u) -> u.visibility = View.VISIBLE}
+    }
+    fun noVerBotones(hashMap: HashMap<Int, Button>){
+        hashMap.forEach { (t, u) -> u.visibility = View.INVISIBLE}
+    }
 }
