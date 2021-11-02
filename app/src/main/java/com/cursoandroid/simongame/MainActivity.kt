@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @DelicateCoroutinesApi
     fun mostrarRonda(hashMap: HashMap<Int, Button>) {
         val toast = Toast.makeText(applicationContext, "Mostrando ronda", Toast.LENGTH_SHORT).show()
         Log.d("ronda", "Mostrando ronda")
@@ -135,7 +136,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-        //desactivarBotones(hashMap)
     }
 
     // Metodoos para tratar los botones (Reutilizar código y limpieza)
