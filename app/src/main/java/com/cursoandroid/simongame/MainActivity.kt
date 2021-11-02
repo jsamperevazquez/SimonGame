@@ -10,13 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
-    var contadorRonda = 4
+    var contadorRonda = 1
     var secuenciaJugador = ArrayList<Int>()
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -44,27 +41,13 @@ class MainActivity : AppCompatActivity() {
             verBotones(arrayBotones)
             mostrarRonda(arrayBotones)
         }
-        /*
-        bAmarillo.setOnClickListener {
-            Log.d("amarillo", "Jugador pulsa botón amarillo")
-
-        }
-        bAzul.setOnClickListener {
-            Log.d("azul", "Jugador pulsa botón azul")
-        }
-        bVerde.setOnClickListener {
-            Log.d("verde", "Jugador presiona botón verde")
-        }
-        bRojo.setOnClickListener {
-            Log.d("rojo", "Jugador presiona botón rojo")
-        }
-        */
     }
 
     fun mostrarRonda(hashMap: HashMap<Int, Button>) {
         val toast = Toast.makeText(applicationContext, "Mostrando ronda", Toast.LENGTH_SHORT).show()
         Log.d("ronda", "Mostrando ronda")
         val ronda: TextView = findViewById(R.id.textViewRonda)
+        ronda.visibility = View.VISIBLE
         ronda.setText("Ronda " + this.contadorRonda).toString()
         // Uso launch para crear una tarea de corrutina que identifico con job
         val job = GlobalScope.launch(Dispatchers.Main) {
@@ -73,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @DelicateCoroutinesApi
     @SuppressLint("CutPasteId")
     suspend fun ejecutarSecuencia(ronda: Int, hashMap: HashMap<Int, Button>): ArrayList<Int> {
         var toast =
@@ -82,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         var random = (0..3).random()
         Log.d("secuencia", "Ejecutando secuencia")
         desactivarBotones(hashMap)
-        // todo -> Crear un array en función de la ronda
 
         while (secuencia > 0) {
             var boton = hashMap[random]
@@ -114,8 +97,9 @@ class MainActivity : AppCompatActivity() {
             delay(500L)
             secuencia--
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            comprobarSecuencia(secuendiaGuardada, hashMap, ronda)
+                comprobarSecuencia(secuendiaGuardada, hashMap, ronda)
         }
         return secuendiaGuardada
     }
@@ -138,11 +122,14 @@ class MainActivity : AppCompatActivity() {
                 Log.d("BotonPulsado", "Jugador pulsa " + "${u.id}")
                 if (secuenciaJugador.size == arraySecuencia.size) {
                     if (equals(arraySecuencia)) {
+                        contadorRonda++
                         mostrarRonda(hashMap)
                     } else {
                         val toast =
                             Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
                                 .show()
+                        finish()
+                        startActivity(intent)
                     }
                 }
             }
@@ -188,4 +175,5 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+
 }
