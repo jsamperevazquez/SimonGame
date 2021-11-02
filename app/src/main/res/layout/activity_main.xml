@@ -47,8 +47,8 @@
         android:id="@+id/botonVerde"
         android:layout_width="181dp"
         android:layout_height="175dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="132dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="208dp"
         android:background="@drawable/boton_verde"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,13 +59,13 @@
         android:id="@+id/botonAmarillo"
         android:layout_width="181dp"
         android:layout_height="175dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/boton_amarillo"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/botonVerde"
         app:layout_constraintStart_toEndOf="@+id/botonVerde"
         app:layout_constraintTop_toTopOf="@+id/botonVerde"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -77,7 +77,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/botonVerde"
         app:layout_constraintEnd_toEndOf="@+id/botonVerde"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/botonVerde"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -85,13 +85,13 @@
         android:id="@+id/botonAzul"
         android:layout_width="181dp"
         android:layout_height="175dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/boton_azul"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/botonRojo"
         app:layout_constraintStart_toEndOf="@+id/botonRojo"
         app:layout_constraintTop_toTopOf="@+id/botonRojo"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

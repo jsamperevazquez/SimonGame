@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     var contadorRonda = 4
+    var secuenciaJugador = ArrayList<Int>()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +35,16 @@ class MainActivity : AppCompatActivity() {
         arrayBotones[2] = bAmarillo
         arrayBotones[3] = bAzul
         botonEmpezar.setOnClickListener {
+            botonEmpezar.visibility = View.INVISIBLE
             val toast =
                 Toast.makeText(applicationContext, "Jugador juega", Toast.LENGTH_SHORT).show()
             Log.d("estado", "Jugador ha empezado a jugar")
 
             //Al clickar botón empezar mediante forEach de mi HMap activo botones
-           verBotones(arrayBotones)
+            verBotones(arrayBotones)
             mostrarRonda(arrayBotones)
         }
+        /*
         bAmarillo.setOnClickListener {
             Log.d("amarillo", "Jugador pulsa botón amarillo")
 
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         bRojo.setOnClickListener {
             Log.d("rojo", "Jugador presiona botón rojo")
         }
-
+        */
     }
 
     fun mostrarRonda(hashMap: HashMap<Int, Button>) {
@@ -106,36 +109,83 @@ class MainActivity : AppCompatActivity() {
                 }
             )
 
-
+            secuendiaGuardada.add(random)
             random = (0..3).random()
             delay(500L)
-            secuendiaGuardada.add(boton.hashCode())
             secuencia--
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            comprobarSecuencia(secuendiaGuardada,hashMap)
+            comprobarSecuencia(secuendiaGuardada, hashMap, ronda)
         }
         return secuendiaGuardada
     }
 
+    @SuppressLint("ShowToast")
     @RequiresApi(Build.VERSION_CODES.N)
-    fun comprobarSecuencia(arraySecuencia: ArrayList<Int>, hashMap: HashMap<Int, Button>) {
-        var secuenciaJugador = ArrayList<Int>()
+    fun comprobarSecuencia(
+        arraySecuencia: ArrayList<Int>,
+        hashMap: HashMap<Int, Button>,
+        ronda: Int
+    ) {
+        secuenciaJugador.removeAll(secuenciaJugador)
+
         activarBotones(hashMap)
 
+
+        hashMap.forEach { (t, u) ->
+            u.setOnClickListener {
+                secuenciaJugador.add(t)
+                Log.d("BotonPulsado", "Jugador pulsa " + "${u.id}")
+                if (secuenciaJugador.size == arraySecuencia.size) {
+                    if (equals(arraySecuencia)) {
+                        mostrarRonda(hashMap)
+                    } else {
+                        val toast =
+                            Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
+                                .show()
+                    }
+                }
+            }
+
+        }
+        //desactivarBotones(hashMap)
     }
+
     // Metodoos para tratar los botones (Reutilizar código y limpieza)
     @RequiresApi(Build.VERSION_CODES.N)
     fun activarBotones(hashMap: HashMap<Int, Button>) {
-        hashMap.forEach { (t, u) -> u.isEnabled = true}
+        hashMap.forEach { (t, u) -> u.isEnabled = true }
     }
-    fun desactivarBotones(hashMap: HashMap<Int, Button>){
-        hashMap.forEach { (t, u) -> u.isEnabled = false}
+
+    fun desactivarBotones(hashMap: HashMap<Int, Button>) {
+        hashMap.forEach { (t, u) -> u.isEnabled = false }
     }
-    fun verBotones(hashMap: HashMap<Int, Button>){
-        hashMap.forEach { (t, u) -> u.visibility = View.VISIBLE}
+
+    fun verBotones(hashMap: HashMap<Int, Button>) {
+        hashMap.forEach { (t, u) -> u.visibility = View.VISIBLE }
     }
-    fun noVerBotones(hashMap: HashMap<Int, Button>){
-        hashMap.forEach { (t, u) -> u.visibility = View.INVISIBLE}
+
+    fun noVerBotones(hashMap: HashMap<Int, Button>) {
+        hashMap.forEach { (t, u) -> u.visibility = View.INVISIBLE }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is List<*>) return false
+
+        return orderedEquals(secuenciaJugador, other)
+    }
+
+    internal fun orderedEquals(c: Collection<*>, other: Collection<*>): Boolean {
+        if (c.size != other.size) return false
+
+        val otherIterator = other.iterator()
+        for (elem in c) {
+            val elemOther = otherIterator.next()
+            if (elem != elemOther) {
+                return false
+            }
+        }
+        return true
     }
 }
