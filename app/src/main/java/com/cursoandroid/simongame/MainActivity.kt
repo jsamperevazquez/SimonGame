@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         while (secuencia > 0) {
             var boton = hashMap[random]
-            delay(500L)
+            delay(300L)
             boton?.setBackgroundResource(
                 when (random) {
                     0 -> R.drawable.boton_rojo_resal
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     else -> R.drawable.boton_azul
                 }
             )
-            delay(500L)
+            delay(300L)
             boton?.setBackgroundResource(
                 when (random) {
                     0 -> R.drawable.boton_rojo
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
             secuendiaGuardada.add(random)
             random = (0..3).random()
-            delay(500L)
+            delay(300L)
             secuencia--
         }
 
