@@ -8,4 +8,5 @@
     <string name="texto_ronda">Ronda</string>
     <string name="imagen_Fondo"></string>
     <string name="numero_Ronda"></string>
+    <string name="game_over"></string>
 </resources>

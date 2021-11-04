@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     var contadorRonda = 1
     var secuenciaJugador = ArrayList<Int>()
 
+    @SuppressLint("WrongViewCast")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,12 +102,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                comprobarSecuencia(secuendiaGuardada, hashMap, ronda)
+            comprobarSecuencia(secuendiaGuardada, hashMap, ronda)
         }
         return secuendiaGuardada
     }
 
-    @SuppressLint("ShowToast")
+    @SuppressLint("ShowToast", "WrongViewCast")
     @RequiresApi(Build.VERSION_CODES.N)
     fun comprobarSecuencia(
         arraySecuencia: ArrayList<Int>,
@@ -113,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         ronda: Int
     ) {
         secuenciaJugador.removeAll(secuenciaJugador)
-
+        val texGameOver: ImageView = findViewById(R.id.gameOverView)
         activarBotones(hashMap)
 
 
@@ -129,10 +131,13 @@ class MainActivity : AppCompatActivity() {
                         val toast =
                             Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
                                 .show()
-                        GlobalScope.launch(Dispatchers.Main){
+                        GlobalScope.launch(Dispatchers.Main) {
+                            texGameOver.visibility = View.VISIBLE;
+                            noVerBotones(hashMap)
                             delay(2000L)
                             finish()
-                            startActivity(intent)}
+                            startActivity(intent)
+                        }
 
                     }
                 }
@@ -159,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         hashMap.forEach { (t, u) -> u.visibility = View.INVISIBLE }
     }
 
+    // Métodos para comprobar los arrays
     override fun equals(other: Any?): Boolean {
         if (other === this) return true
         if (other !is List<*>) return false
