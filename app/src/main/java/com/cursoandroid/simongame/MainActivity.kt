@@ -1,11 +1,15 @@
 package com.cursoandroid.simongame
 
 import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.SoundEffectConstants
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,12 +20,16 @@ import kotlinx.coroutines.*
 class MainActivity : AppCompatActivity() {
     var contadorRonda = 1
     var secuenciaJugador = ArrayList<Int>()
+    private lateinit var mediaPlayer: MediaPlayer
 
     @SuppressLint("WrongViewCast")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val textoAnim = findViewById<TextView>(R.id.testoAnim)
+        val swars: Animation = AnimationUtils.loadAnimation(this, R.anim.animationfile)
+        textoAnim.startAnimation(swars)
         val botonEmpezar: Button = findViewById(R.id.botonStart)
         val bAzul: Button = findViewById(R.id.botonAzul)
         val bAmarillo: Button = findViewById(R.id.botonAmarillo)
@@ -33,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         arrayBotones[1] = bVerde
         arrayBotones[2] = bAmarillo
         arrayBotones[3] = bAzul
+        mediaPlayer = MediaPlayer.create(this,R.raw.swars)
+        mediaPlayer.start()
         botonEmpezar.setOnClickListener {
             botonEmpezar.visibility = View.INVISIBLE
             val toast =
@@ -47,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     @DelicateCoroutinesApi
     fun mostrarRonda(hashMap: HashMap<Int, Button>) {
+        val textoAnim = findViewById<TextView>(R.id.testoAnim)
+        textoAnim.text = ""
         val toast = Toast.makeText(applicationContext, "Mostrando ronda", Toast.LENGTH_SHORT).show()
         Log.d("ronda", "Mostrando ronda")
         val ronda: TextView = findViewById(R.id.textViewRonda)
@@ -117,11 +129,16 @@ class MainActivity : AppCompatActivity() {
         secuenciaJugador.removeAll(secuenciaJugador)
         val texGameOver: ImageView = findViewById(R.id.gameOverView)
         activarBotones(hashMap)
-
+        val arraySonidos = hashMapOf<Int,MediaPlayer>()
+        arraySonidos[0] = MediaPlayer.create(this,R.raw.s)
+        arraySonidos[1] = MediaPlayer.create(this, R.raw.tie)
+        arraySonidos[2] = MediaPlayer.create(this,R.raw.wee)
+        arraySonidos[3] = MediaPlayer.create(this,R.raw.xwin)
 
         hashMap.forEach { (t, u) ->
             u.setOnClickListener {
                 secuenciaJugador.add(t)
+                arraySonidos[t]?.start()
                 Log.d("BotonPulsado", "Jugador pulsa " + "${u.id}")
                 if (secuenciaJugador.size == arraySecuencia.size) {
                     if (equals(arraySecuencia)) {
@@ -132,6 +149,7 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
                                 .show()
                         GlobalScope.launch(Dispatchers.Main) {
+                            mediaPlayer.stop()
                             texGameOver.visibility = View.VISIBLE;
                             noVerBotones(hashMap)
                             delay(2000L)

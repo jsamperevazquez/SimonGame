@@ -9,4 +9,9 @@
     <string name="imagen_Fondo"></string>
     <string name="numero_Ronda"></string>
     <string name="game_over"></string>
+    <string name="text_anim">En una galaxia muy muy lejana\n
+        existía un juego de secuencias \n
+        cambiaría el mundo de android \n
+    Cada uno de los botones se  \n
+    iluminaba para dominar al resto</string>
 </resources>
