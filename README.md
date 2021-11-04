@@ -178,3 +178,20 @@ Se realiza la secuencia iluminando y remarcando el botón que tendrá que pulsar
         }
         return true
     }
+
+## Uso de la APP
+### Pantalla inicial
+
+![Pantalla inicial](/app/media/inicio.png)
+
+
+Botón empezar a la escucha
+
+### Uso de la APP
+
+Una vez pulsado botón de empezar
+
+
+![Demostración](https://github.com/jsamperevazquez/SimonGame/blob/desarrollo/app/media/20211104_170644.gif)
+
+Jugador repite secuencia y en caso de error **"Game over"**
