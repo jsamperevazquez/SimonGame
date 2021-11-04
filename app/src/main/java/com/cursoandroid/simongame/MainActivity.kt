@@ -129,8 +129,11 @@ class MainActivity : AppCompatActivity() {
                         val toast =
                             Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
                                 .show()
-                        finish()
-                        startActivity(intent)
+                        GlobalScope.launch(Dispatchers.Main){
+                            delay(2000L)
+                            finish()
+                            startActivity(intent)}
+
                     }
                 }
             }
