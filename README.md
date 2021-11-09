@@ -178,6 +178,12 @@ Se realiza la secuencia iluminando y remarcando el botón que tendrá que pulsar
         }
         return true
     }
+### Método Override onPause para parar musica backGround
+    @Override
+    override fun onPause(){
+    super.onPause()
+    mediaPlayer.stop()
+    }
 
 ## Uso de la APP
 ### Pantalla inicial
