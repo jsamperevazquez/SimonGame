@@ -17,7 +17,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     var contadorRonda = 1
     var secuenciaJugador = ArrayList<Int>()
     private lateinit var mediaPlayer: MediaPlayer
@@ -202,5 +202,11 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    // Función para detener la música de fondo cuando la actividad está onPause
+    @Override
+    override fun onPause(){
+        super.onPause()
+        mediaPlayer.stop()
+    }
+    }
 
-}
