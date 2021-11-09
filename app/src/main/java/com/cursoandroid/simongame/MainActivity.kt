@@ -45,8 +45,7 @@ open class MainActivity : AppCompatActivity() {
         mediaPlayer.start()
         botonEmpezar.setOnClickListener {
             botonEmpezar.visibility = View.INVISIBLE
-            val toast =
-                Toast.makeText(applicationContext, "Jugador juega", Toast.LENGTH_SHORT).show()
+
             Log.d("estado", "Jugador ha empezado a jugar")
 
             //Al clickar botón empezar mediante forEach de mi HMap activo botones
@@ -59,7 +58,6 @@ open class MainActivity : AppCompatActivity() {
     fun mostrarRonda(hashMap: HashMap<Int, Button>) {
         val textoAnim = findViewById<TextView>(R.id.testoAnim)
         textoAnim.text = ""
-        val toast = Toast.makeText(applicationContext, "Mostrando ronda", Toast.LENGTH_SHORT).show()
         Log.d("ronda", "Mostrando ronda")
         val ronda: TextView = findViewById(R.id.textViewRonda)
         ronda.visibility = View.VISIBLE
@@ -74,8 +72,6 @@ open class MainActivity : AppCompatActivity() {
     @DelicateCoroutinesApi
     @SuppressLint("CutPasteId")
     suspend fun ejecutarSecuencia(ronda: Int, hashMap: HashMap<Int, Button>): ArrayList<Int> {
-        var toast =
-            Toast.makeText(applicationContext, "Mostrando secuencia", Toast.LENGTH_SHORT).show()
         var secuendiaGuardada = arrayListOf<Int>()
         var secuencia = contadorRonda
         var random = (0..3).random()
@@ -145,9 +141,6 @@ open class MainActivity : AppCompatActivity() {
                         contadorRonda++
                         mostrarRonda(hashMap)
                     } else {
-                        val toast =
-                            Toast.makeText(applicationContext, "Game Over", Toast.LENGTH_SHORT)
-                                .show()
                         GlobalScope.launch(Dispatchers.Main) {
                             mediaPlayer.stop()
                             texGameOver.visibility = View.VISIBLE;
