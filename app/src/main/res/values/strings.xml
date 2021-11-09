@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">SimonGame</string>
+    <string name="boton_start">EMPEZAR</string>
+    <string name="boton_amarillo">Amarillo</string>
+    <string name="boton_rojo">Rojo</string>
+    <string name="boton_verde">Verde</string>
+    <string name="boton_azul">Azul</string>
+    <string name="texto_ronda">Ronda</string>
+    <string name="imagen_Fondo"></string>
+    <string name="numero_Ronda"></string>
+    <string name="game_over"></string>
+    <string name="text_anim">En una galaxia muy muy lejana\n
+        existía un juego de secuencias \n
+        cambiaría el mundo de android \n
+    Cada uno de los botones se  \n
+    iluminaba para dominar al resto</string>
 </resources>
